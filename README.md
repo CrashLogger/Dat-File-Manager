@@ -11,6 +11,8 @@ I'm working on adding file-per-type functionality but it's proven to be a pain i
 This version being a total WIP can only generate .dat files for vehicles, because it is what I'm mostly used to using and felt more comfortable weorking with.
 
 # Special thanks to
-iDrmzIt for the original idea
-Nelson Sexton for making .dat files only slightly painful to work with
-Mitsuha Miyamizu for being a general purpose goddess
+iDrmzIt for the original idea.
+
+Nelson Sexton for making .dat files only slightly painful to work with.
+
+Mitsuha Miyamizu for being a general purpose goddess.
