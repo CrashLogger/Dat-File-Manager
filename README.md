@@ -1,6 +1,5 @@
-# Dat-File-Manager
+# General Information
 Manages .dat files for unturned modding, makes life a little easier hopefully
-
 It's current state makes it barely usable, practical or sensible to be quite honest.
 
 # Logging
@@ -10,3 +9,8 @@ I'm working on adding file-per-type functionality but it's proven to be a pain i
 
 # Generation
 This version being a total WIP can only generate .dat files for vehicles, because it is what I'm mostly used to using and felt more comfortable weorking with.
+
+# Special thanks to
+iDrmzIt for the original idea
+Nelson Sexton for making .dat files only slightly painful to work with
+Mitsuha Miyamizu for being a general purpose goddess
