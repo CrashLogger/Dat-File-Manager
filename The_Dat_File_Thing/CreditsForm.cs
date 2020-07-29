@@ -21,5 +21,10 @@ namespace The_Dat_File_Thing
         {
             System.Diagnostics.Process.Start("https://twitter.com/erlantz_ouo");
         }
+
+        private void CreditsForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

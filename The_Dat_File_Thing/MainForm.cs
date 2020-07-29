@@ -26,8 +26,8 @@ namespace The_Dat_File_Thing
         public static bool colorPrefix = false;
         public static bool colorSuffix = false;
 
-        public static int minItemID, maxItemID, currentItemID, minVehicleID, maxVehicleID, currentVehicleID, minObjectID, maxObjectID, currentObjectID, minEffectID, maxEffectID, currentEffectID = 0;
-        
+        public static int minItemID, maxItemID, currentItemID, minVehicleID, maxWeaponID, currentWeaponID, minWeaponID, maxMiscID, currentMiscID, minMiscID, maxVehicleID, currentVehicleID, minObjectID, maxObjectID, currentObjectID, minEffectID, maxEffectID, currentEffectID = 0;
+
         static string[] manifestLines;
 
         static bool parentDir = false;
@@ -76,7 +76,6 @@ namespace The_Dat_File_Thing
 
         public MainForm()
         {
-
             logged_IDs.Add("ID,Bundle Name,Type,In-Game Name,Path,Cosmetic");
             Item_Logged_IDs.Add("ID, Bundle_Name, Type, Game_Name, Path, Cosmetic");
             Object_Logged_IDs.Add("ID, Bundle_Name, Type, Game_Name, Path, Cosmetic");
@@ -85,6 +84,9 @@ namespace The_Dat_File_Thing
             config_path = AppDomain.CurrentDomain.BaseDirectory;
             log_path = config_path + "IDLog.csv";
             debugLogPath = config_path + "Log.dat";
+
+            debugLog.Add($@"Initialised, Development version 1.3");
+            File.WriteAllLines(debugLogPath, debugLog);
 
             //creates log files
             if (!File.Exists(log_path)) 
@@ -109,11 +111,8 @@ namespace The_Dat_File_Thing
             if(!configSettings.Contains("Basic") && !configSettings.Contains("Advanced"))
             {
                 demoMode = true;
+                debugLog.Add("Limited demo mode active");
             }
-
-            bool readingVID = false;
-            bool readingIID = false;
-            bool readingOID = false;
 
             foreach (string configLine in configSettings)
             {
@@ -125,61 +124,28 @@ namespace The_Dat_File_Thing
 
                 if (!configLine.Contains($@"//"))
                 {
-                    if (!readingOID && !readingIID && !readingVID)
+                    if (configLine.Equals("Advanced"))
                     {
-                        if (configLine.Equals("Advanced"))
-                        {
-                            advancedMode = true;
-                            demoMode = false;
-                        }
-                        else if (configLine.Equals("Basic"))
-                        {
-                            advancedMode = false;
-                            demoMode = false;
-                        }
-
-                        if (configLine.Contains("Object"))
-                        {
-                            readingOID = true;
-                        }
-                        if (configLine.Contains("Vehicle"))
-                        {
-                            readingVID = true;
-                        }
+                        advancedMode = true;
+                        demoMode = false;
+                    }
+                    else if (configLine.Equals("Basic"))
+                    {
+                        advancedMode = false;
+                        demoMode = false;
                     }
 
-                    else if (readingOID)
-                    {
-                        minObjectID = Convert.ToInt32(configLine.Split(',').First());
-                        maxObjectID = Convert.ToInt32(configLine.Split(',').Last());
-
-                        if (minObjectID == maxObjectID)
-                        {
-                            maxObjectID = 65535;
-                        }
-
-                        readingIID = false;
-                    }
-                    else if (readingVID)
-                    {
-                        minVehicleID = Convert.ToInt32(configLine.Split(',').First());
-                        maxVehicleID = Convert.ToInt32(configLine.Split(',').Last());
-
-                        if (minVehicleID == maxVehicleID)
-                        {
-                            maxVehicleID = 65535;
-                        }
-
-                        readingVID = false;
-                    }
                 }
                 else
                 {
-                    //MessageBox.Show("Comment:" + configLine);
+                    debugLog.Add($@"Comment in {config_path}: '{configLine}'");
+                    File.WriteAllLines(debugLogPath, debugLog);
                 }
             }
+
             //Loads the form once all the settings and stuff are ready
             InitializeComponent();
+
             if (advancedMode)
             {
                 AdvancedPanel.BackgroundImage = Properties.Resources.AdvancedMode64;

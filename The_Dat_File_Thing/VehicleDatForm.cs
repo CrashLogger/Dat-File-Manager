@@ -182,9 +182,6 @@ namespace The_Dat_File_Thing
                         {
                             //KEEP THESE TWO PLS THX
                             linesToWrite.Add($@"//Bundle: {line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}" + "\n" + $@"//English.dat: Name {line.Split('_').Last()} {FileNameLabel.Text.Split('_').Last()}");
-
-                            MainForm.debugLog.Add("Color variants active - Prefix");
-                            File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
                             
                             //MessageBox.Show($@"Bundle: {line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}" + "\n" + $@"English.dat: Name {FileNameLabel.Text.Split('_').Last()}_{line.Split('_').Last()}");
 
@@ -198,16 +195,23 @@ namespace The_Dat_File_Thing
                                     FileStream fs = File.Create(($@"{vehicleTypeDir}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat"));
                                     fs.Close();
                                     File.WriteAllLines($@"{vehicleTypeDir}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat", linesToWrite);
+                                    MainForm.debugLog.Add($@"Created Vehicle with ID: {MainForm.currentVehicleID}");
+                                    File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
                                 }
                                 else
                                 {
                                     var currentDatFile = File.ReadAllLines($@"{vehicleTypeDir}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat");
                                 }
 
+                                MainForm.debugLog.Add($@"ID {MainForm.currentVehicleID}. Writing to { vehicleTypeDir}\{ line.Split('_').First()}_{ FileNameLabel.Text.Split('_').Last()}\{ line.Split('_').First()}_{ FileNameLabel.Text.Split('_').Last()}.dat");
+                                File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
+
                             }
                             catch (DirectoryNotFoundException)
                             {
                                 MessageBox.Show($"There was an error with the color variant prefix: A file with such a prefix does not exist, check for typos. \n \n Prefix and color with issues: \n {line}", "File with prefix not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MainForm.debugLog.Add($@"File prefix does not exist: {line.Split('_').First()}");
+                                File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
                                 break;
                             }
 
@@ -222,21 +226,20 @@ namespace The_Dat_File_Thing
                         }
                         DebugForm debugForm = new DebugForm();
                         debugForm.Show();
+                        MainForm.minVehicleID = MainForm.currentVehicleID;
                     }
 
                 }
                 catch (ArgumentException)
                 {
                     MessageBox.Show("The color variant filepath is empty or it doesn't lead to a plaintext file, and the checkbox to use one is checked", "Color variants file error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    MainForm.debugLog.Add("File finding error in VehicleDatForm - generateGile");
+                    MainForm.debugLog.Add("Color variants file path is empty or an illegal format");
                     File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
                 }
             }
             else
             {
-
                 MessageBox.Show("Someone remind me to code this part again, it was fucking shit when I checked", "fuckfuckfuckfuck", MessageBoxButtons.OK);
-
             }
         }
 
