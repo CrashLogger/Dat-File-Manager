@@ -85,7 +85,7 @@ namespace The_Dat_File_Thing
             log_path = config_path + "IDLog.csv";
             debugLogPath = config_path + "Log.dat";
 
-            debugLog.Add($@"Initialised, Development version 1.3");
+            debugLog.Add($@"Initialised, Development version 1.4");
             File.WriteAllLines(debugLogPath, debugLog);
 
             //creates log files
@@ -122,26 +122,209 @@ namespace The_Dat_File_Thing
                     utd_path = configLine.Remove(0, 16);
                 }
 
-                if (!configLine.Contains($@"//"))
-                {
-                    if (configLine.Equals("Advanced"))
-                    {
-                        advancedMode = true;
-                        demoMode = false;
-                    }
-                    else if (configLine.Equals("Basic"))
-                    {
-                        advancedMode = false;
-                        demoMode = false;
-                    }
+                string typeOfID = "";
 
-                }
-                else
+                try
                 {
-                    debugLog.Add($@"Comment in {config_path}: '{configLine}'");
-                    File.WriteAllLines(debugLogPath, debugLog);
+                    typeOfID = configLine.Remove(0, 3);
+                    typeOfID = typeOfID.Split(' ').First();
                 }
+                catch(ArgumentOutOfRangeException)
+                {
+                    //Skip the line
+                }
+
+
+                try
+                {
+                    if (!configLine.Contains($@"//"))
+                    {
+                        if (configLine.Equals("Advanced"))
+                        {
+                            advancedMode = true;
+                            demoMode = false;
+                        }
+                        else if (configLine.Equals("Basic"))
+                        {
+                            advancedMode = false;
+                            demoMode = false;
+                        }
+                        else if (configLine.Contains("min"))
+                        {
+
+                            switch (typeOfID)
+                            {
+                                case "V":
+                                case "v":
+                                    if (!String.IsNullOrEmpty(configLine.Remove(0, 5)))
+                                    {
+                                        minVehicleID = Convert.ToInt32(configLine.Remove(0, 5));
+                                    }
+                                    else
+                                    {
+                                        minVehicleID = 3500;
+                                    }
+                                    break;
+
+                                case "I":
+                                case "i":
+                                    if (!String.IsNullOrEmpty(configLine.Remove(0, 5)))
+                                    {
+                                        minItemID = Convert.ToInt32(configLine.Remove(0, 5));
+                                    }
+                                    else
+                                    {
+                                        minItemID = 3500;
+                                    }
+                                    break;
+
+                                case "W":
+                                case "w":
+                                    if (!String.IsNullOrEmpty(configLine.Remove(0, 5)))
+                                    {
+                                        minWeaponID = Convert.ToInt32(configLine.Remove(0, 5));
+                                    }
+                                    else
+                                    {
+                                        minWeaponID = 3500;
+                                    }
+                                    break;
+
+                                case "O":
+                                case "o":
+                                    if (!String.IsNullOrEmpty(configLine.Remove(0, 5)))
+                                    {
+                                        minObjectID = Convert.ToInt32(configLine.Remove(0, 5));
+                                    }
+                                    else
+                                    {
+                                        minObjectID = 3500;
+                                    }
+                                    break;
+
+                                case "E":
+                                case "e":
+                                    if (!String.IsNullOrEmpty(configLine.Remove(0, 5)))
+                                    {
+                                        minEffectID = Convert.ToInt32(configLine.Remove(0, 5));
+                                    }
+                                    else
+                                    {
+                                        minEffectID = 3500;
+                                    }
+                                    break;
+
+                                case "M":
+                                case "m":
+                                    if (!String.IsNullOrEmpty(configLine.Remove(0, 5)))
+                                    {
+                                        minMiscID = Convert.ToInt32(configLine.Remove(0, 5));
+                                    }
+                                    else
+                                    {
+                                        minMiscID = 3500;
+                                    }
+                                    break;
+                            }
+                        }
+                        else if (configLine.Contains("max"))
+                        {
+                            switch (typeOfID)
+                            {
+                                case "V":
+                                case "v":
+                                    if (!String.IsNullOrEmpty(configLine.Remove(0, 5)))
+                                    {
+                                        maxVehicleID = Convert.ToInt32(configLine.Remove(0, 5));
+                                    }
+                                    else
+                                    {
+                                        maxVehicleID = 65536;
+                                    }
+                                    break;
+
+                                case "I":
+                                case "i":
+                                    if (!String.IsNullOrEmpty(configLine.Remove(0, 5)))
+                                    {
+                                        maxItemID = Convert.ToInt32(configLine.Remove(0, 5));
+                                    }
+                                    else
+                                    {
+                                        maxItemID = 65536;
+                                    }
+                                    break;
+
+                                case "W":
+                                case "w":
+                                    if (!String.IsNullOrEmpty(configLine.Remove(0, 5)))
+                                    {
+                                        maxWeaponID = Convert.ToInt32(configLine.Remove(0, 5));
+                                    }
+                                    else
+                                    {
+                                        maxWeaponID = 65536;
+                                    }
+                                    break;
+
+                                case "O":
+                                case "o":
+                                    if (!String.IsNullOrEmpty(configLine.Remove(0, 5)))
+                                    {
+                                        maxObjectID = Convert.ToInt32(configLine.Remove(0, 5));
+                                    }
+                                    else
+                                    {
+                                        maxObjectID = 65536;
+                                    }
+                                    break;
+
+                                case "E":
+                                case "e":
+                                    if (!String.IsNullOrEmpty(configLine.Remove(0, 5)))
+                                    {
+                                        maxEffectID = Convert.ToInt32(configLine.Remove(0, 5));
+                                    }
+                                    else
+                                    {
+                                        maxEffectID = 65536;
+                                    }
+                                    break;
+
+                                case "M":
+                                case "m":
+                                    if (!String.IsNullOrEmpty(configLine.Remove(0, 5)))
+                                    {
+                                        maxMiscID = Convert.ToInt32(configLine.Remove(0, 5));
+                                    }
+                                    else
+                                    {
+                                        maxMiscID = 65536;
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        debugLog.Add($@"Comment in {config_path}: '{configLine}'");
+                        File.WriteAllLines(debugLogPath, debugLog);
+                    }
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    continue;
+                }
+
             }
+
+            debugLog.Add($@"Vehicle ID range: {minVehicleID}-{maxVehicleID}");
+            debugLog.Add($@"Object ID range: {minObjectID}-{maxObjectID}");
+            debugLog.Add($@"Item ID range: {minItemID}-{maxItemID}");
+            debugLog.Add($@"Weapon ID range: {minWeaponID}-{maxWeaponID}");
+            debugLog.Add($@"Misc ID range: {minMiscID}-{maxMiscID}");
+            debugLog.Add($@"Effect ID range: {minEffectID}-{maxEffectID}");
+            File.WriteAllLines(debugLogPath, debugLog);
 
             //Loads the form once all the settings and stuff are ready
             InitializeComponent();
