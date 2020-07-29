@@ -23,7 +23,6 @@ namespace The_Dat_File_Thing
             InitializeComponent();
             vehicleTypeDir = MainForm.editingPath.Remove(MainForm.editingPath.Length - 1, 1);
             vehicleTypeDir = vehicleTypeDir.Remove(vehicleTypeDir.Length - vehicleTypeDir.Split(Path.DirectorySeparatorChar).Last().Length, vehicleTypeDir.Split(Path.DirectorySeparatorChar).Last().Length);
-            //MessageBox.Show(vehicleTypeDir);
             FileNameLabel.Text = MainForm.editingPath.Remove(MainForm.editingPath.Length - 1, 1).Split(Path.DirectorySeparatorChar).Last();
             if (MainForm.advancedMode)
             {
