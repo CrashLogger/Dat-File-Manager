@@ -203,6 +203,13 @@ namespace The_Dat_File_Thing
                                     var currentDatFile = File.ReadAllLines($@"{vehicleTypeDir}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat");
                                 }
 
+                                if (!File.Exists($@"{vehicleTypeDir}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}\English.dat"))
+                                {
+                                    FileStream fs = File.Create($@"{vehicleTypeDir}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}\English.dat");
+                                    fs.Close();
+                                    File.WriteAllText($@"{vehicleTypeDir}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}\English.dat", $@"{line.Split('_').Last()} {FileNameLabel.Text.Split('_').Last()}");
+                                }
+
                                 MainForm.debugLog.Add($@"ID {MainForm.currentVehicleID}. Writing to { vehicleTypeDir}\{ line.Split('_').First()}_{ FileNameLabel.Text.Split('_').Last()}\{ line.Split('_').First()}_{ FileNameLabel.Text.Split('_').Last()}.dat");
                                 File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
 

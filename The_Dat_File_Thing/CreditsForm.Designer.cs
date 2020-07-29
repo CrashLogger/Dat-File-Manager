@@ -163,7 +163,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Credits                                                                          " +
     "                                                                            Deve" +
-    "lopment  Version 1.4";
+    "lopment  Version 1.5";
             this.Load += new System.EventHandler(this.CreditsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
