@@ -234,32 +234,9 @@ namespace The_Dat_File_Thing
             }
             else
             {
-                linesToWrite.Add($@"ID: {MainForm.minVehicleID}");
-                if (MainForm.minVehicleID < MainForm.maxVehicleID)
-                {
-                    MainForm.minVehicleID++;
-                }
-                else
-                {
-                    MessageBox.Show($@"ID: {MainForm.maxVehicleID} reached!", "Maximum vehicle ID reached!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                if (!File.Exists($@"{MainForm.editingPath}{MainForm.editingPath.Remove(MainForm.editingPath.Length - 1, 1).Split(Path.DirectorySeparatorChar).Last()}"))
-                {
-                    FileStream CreateDatFile = File.Create($@"{MainForm.editingPath}{MainForm.editingPath.Remove(MainForm.editingPath.Length - 1, 1).Split(Path.DirectorySeparatorChar).Last()}");
-                    CreateDatFile.Close();
-                }
-                File.WriteAllLines($@"{MainForm.editingPath}{MainForm.editingPath.Remove(MainForm.editingPath.Length - 1, 1).Split(Path.DirectorySeparatorChar).Last()}", linesToWrite);
 
-                if (MainForm.minVehicleID < MainForm.maxVehicleID)
-                {
-                    MainForm.minVehicleID++;
-                }
-                else
-                {
-                    MessageBox.Show($@"ID: {MainForm.maxVehicleID} reached!", "Maximum vehicle ID reached!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                DebugForm debugForm = new DebugForm();
-                debugForm.Show();
+                MessageBox.Show("Someone remind me to code this part again, it was fucking shit when I checked", "fuckfuckfuckfuck", MessageBoxButtons.OK);
+
             }
         }
 
@@ -322,7 +299,6 @@ namespace The_Dat_File_Thing
             {
                 FileNameLabel.Text = MainForm.editingPath.Remove(MainForm.editingPath.Length - 1, 1).Split(Path.DirectorySeparatorChar).Last().Split('_').Last();
             }
-            
         }
 
         private void colorIsSuffix_CheckedChanged(object sender, EventArgs e)
