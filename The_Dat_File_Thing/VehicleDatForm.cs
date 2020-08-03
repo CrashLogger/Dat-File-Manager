@@ -226,48 +226,9 @@ namespace The_Dat_File_Thing
                         }
                         else if (colorIsSuffix.Checked)
                         {
-
-                            //KEEP THESE TWO PLS THX
-                            linesToWrite.Add($@"//Bundle: {line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}" + "\n" + $@"//English.dat: Name {line.Split('_').Last()} {FileNameLabel.Text.Split('_').Last()}");
-
-                            //MessageBox.Show($@"Bundle: {line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}" + "\n" + $@"English.dat: Name {FileNameLabel.Text.Split('_').Last()}_{line.Split('_').Last()}");
-
-                            linesToWrite.Add($@"ID: {MainForm.currentVehicleID}");
-                            MainForm.currentVehicleID++;
-                            //try
-                            //{
-
-                            //}
-                            //catch (DirectoryNotFoundException)
-                            //{
-                            //    MessageBox.Show($"There was an error with the color variant suffix: A file with such a suffix does not exist, check for typos. \n \n Suffix and color with issues: \n {line}", "File with suffix not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            //    MainForm.debugLog.Add($@"File suffix does not exist: {line.Split('_').First()}");
-                            //    File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
-                            //    break;
-                            //}
-
-                            if (!File.Exists($@"{vehicleTypeDir}\{FileNameLabel.Text.Split('_').First()}_{line.Split('_').First()}\{FileNameLabel.Text.Split('_').Last()}_{line.Split('_').First()}.dat"))
-                            {
-                                FileStream fs = File.Create(($@"{vehicleTypeDir}\{FileNameLabel.Text.Split('_').First()}_{line.Split('_').First()}\{FileNameLabel.Text.Split('_').Last()}_{line.Split('_').First()}.dat"));
-                                fs.Close();
-                                File.WriteAllLines($@"{vehicleTypeDir}\{FileNameLabel.Text.Split('_').Last()}_{line.Split('_').First()}\{FileNameLabel.Text.Split('_').Last()}_{line.Split('_').First()}.dat", linesToWrite);
-                                MainForm.debugLog.Add($@"Created Vehicle with ID: {MainForm.currentVehicleID}");
-                                File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
-                            }
-                            else
-                            {
-                                var currentDatFile = File.ReadAllLines($@"{vehicleTypeDir}\{FileNameLabel.Text.Split('_').First()}_{line.Split('_').First()}\{FileNameLabel.Text.Split('_').Last()}_{line.Split('_').First()}.dat");
-                            }
-
-                            if (!File.Exists($@"{vehicleTypeDir}\{FileNameLabel.Text.Split('_').First()}_{line.Split('_').First()}\English.dat"))
-                            {
-                                FileStream fs = File.Create($@"{vehicleTypeDir}\{FileNameLabel.Text.Split('_').First()}_{line.Split('_').First()}\English.dat");
-                                fs.Close();
-                            }
-
-                            File.WriteAllText($@"{vehicleTypeDir}\{FileNameLabel.Text.Split('_').First()}_{line.Split('_').First()}\English.dat", $@"{line.Split('_').Last()} {FileNameLabel.Text.Split('_').Last()}");
-
-                            MainForm.debugLog.Add($@"ID {MainForm.currentVehicleID}. Writing to { vehicleTypeDir}\{FileNameLabel.Text.Split('_').Last()}_{line.Split('_').First()}\\{FileNameLabel.Text.Split('_').Last()}_{line.Split('_').First()}.dat");
+                            MainForm.debugLog.Add("Color variants active - Suffix");
+                            File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
+                            MessageBox.Show("Use the prefix for now, this isn't ready yet because I got distracted by chess and smash.");
                         }
                         DebugForm debugForm = new DebugForm();
                         debugForm.Show();
