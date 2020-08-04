@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -82,9 +82,6 @@
     <Compile Include="CreditsForm.Designer.cs">
       <DependentUpon>CreditsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="KnownBugsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="KnownBugsForm.Designer.cs">
       <DependentUpon>KnownBugsForm.cs</DependentUpon>
     </Compile>
@@ -148,6 +145,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="KnownBugsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -167,7 +167,6 @@
     <None Include="Resources\Tool64.png" />
     <None Include="Resources\VehicleLogo64.png" />
     <None Include="Resources\info64.png" />
-    <Content Include="Untitled.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
