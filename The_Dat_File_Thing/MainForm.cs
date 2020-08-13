@@ -56,6 +56,7 @@ namespace The_Dat_File_Thing
         //These are just IDs, to check which one is the latest one used
         public static int[] vehicleIDsLogged;
         public static int[] itemIDsLogged;
+
         public static int[] objectIDsLogged;
         public static int[] miscIDsLogged;
 
@@ -85,7 +86,7 @@ namespace The_Dat_File_Thing
             log_path = config_path + "IDLog.csv";
             debugLogPath = config_path + "Log.dat";
 
-            debugLog.Add($@"Initialised, Development version 1.4");
+            debugLog.Add($@"Initialised, Development version 1.5 - Multiplatform Support Attempts");
             File.WriteAllLines(debugLogPath, debugLog);
 
             //creates log files
@@ -133,7 +134,6 @@ namespace The_Dat_File_Thing
                 {
                     //Skip the line
                 }
-
 
                 try
                 {
@@ -315,7 +315,6 @@ namespace The_Dat_File_Thing
                 {
                     continue;
                 }
-
             }
 
             debugLog.Add($@"Vehicle ID range: {minVehicleID}-{maxVehicleID}");
@@ -328,21 +327,6 @@ namespace The_Dat_File_Thing
 
             //Loads the form once all the settings and stuff are ready
             InitializeComponent();
-
-            if (advancedMode)
-            {
-                AdvancedPanel.BackgroundImage = Properties.Resources.AdvancedMode64;
-                KnownBugsButton.Enabled = true;
-            }
-            else if (demoMode)
-            {
-                AdvancedPanel.BackgroundImage = Properties.Resources.DemoMode64;
-
-            }
-            else if (!advancedMode && !demoMode)
-            {
-                AdvancedPanel.BackgroundImage = Properties.Resources.BasicMode64;
-            }
             ChooseBundleType.SelectedItem = "All";
             if (!advancedMode)
             {
@@ -383,7 +367,7 @@ namespace The_Dat_File_Thing
                 try
                 {
                     //Looks for all directories within those directories of interest, then in those (recursive). Only if the word "Bundles" is included in the path
-                    string[] dirsInUnturned = Directory.GetDirectories($@"{utd_path}\{directoryOfInterest}");
+                    string[] dirsInUnturned = Directory.GetDirectories($@"{utd_path}{Path.DirectorySeparatorChar}{directoryOfInterest}");
                     foreach (string dir in dirsInUnturned)
                     {
                         LoadSubDirs(dir);
@@ -418,7 +402,7 @@ namespace The_Dat_File_Thing
 
                 if (!checkable_filePath.Contains(",") && !checkable_filePath.Contains("Skin") && !checkable_filePath.Contains("Mythic") && !already_checked.Contains(checkable_filePath))
                 {
-                    EnglishDatFile = ($@"{checkable_filePath}\English.dat");
+                    EnglishDatFile = ($@"{checkable_filePath}{Path.DirectorySeparatorChar}English.dat");
                     bundleName = ($@"{checkable_filePath.Split(Path.DirectorySeparatorChar).Last()}");
 
                     if (CheckedBundles.Contains(bundleName) && (CheckedPaths.Contains(checkable_filePath)))
@@ -432,7 +416,7 @@ namespace The_Dat_File_Thing
                     }
                     try
                     {
-                        var fileChecking = File.ReadAllLines($@"{checkable_filePath}\{bundleName}.dat");
+                        var fileChecking = File.ReadAllLines($@"{checkable_filePath}{Path.DirectorySeparatorChar}{bundleName}.dat");
                         foreach (string line in fileChecking)
                         {
                             if (line.Contains("ID") && !line.Contains("GUID") && !line.Contains("print") && !line.Contains("table") && !line.Contains("Asset") && !line.Contains("Reward") && !line.Contains("Spawn") && !line.Contains("Skin") && !line.Contains("Replacement") && !line.Contains("Item") && !line.Contains("Limit") && !line.Contains("Blade") && !line.Contains("Condition"))
@@ -454,7 +438,7 @@ namespace The_Dat_File_Thing
                         debugLog.Add($@"Unauthorized Access to: {checkable_filePath}");
                         File.WriteAllLines(debugLogPath, debugLog);
 
-                        MessageBox.Show($"There was an error accessing {checkable_filePath}: Unauthorized Access \n Close any program that might be using it and try again.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"There was an error accessing {checkable_filePath}: Unauthorized Access \n Close any program that might be using        it and try again.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     catch (FileNotFoundException)
                     {
@@ -476,6 +460,8 @@ namespace The_Dat_File_Thing
                     catch (System.IO.FileNotFoundException)
                     {
                         Game_Name = "#NAME";
+                        debugLog.Add($@"Failed to find an English.dat file in {checkable_filePath}. Ignore if this is a parent directory.");
+                        File.WriteAllLines(debugLogPath, debugLog);
                     }
                 }
                 if (hasNotBeenUsed && !checkable_filePath.Contains("Asset") && !FilePerTypeBox.Checked)
@@ -492,88 +478,19 @@ namespace The_Dat_File_Thing
                         }
                     }
                 }
-
-                //God this is such a fucking pain in the ass
-                //It has yet to be dealt with, it barely works now and to be honest, even when it does work it skips/doubles some things
-                //VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-
-                else if (hasNotBeenUsed && !checkable_filePath.Contains("Asset") && FilePerTypeBox.Checked)
-                {
-                    foreach (string subType in TypesItems)
-                    {
-                        if (subType.Equals(bundleType) && !isACosmetic && hasNotBeenUsed && $@"{checkable_filePath}\{bundleName}".Contains($@"{bundleName}\{bundleName}"))
-                        {
-                            Item_Logged_IDs.Add($@"{ID},{bundleName},{bundleType},{Game_Name},{checkable_filePath},{isACosmetic}");
-                            continue;
-                        }
-                    }
-                    foreach (string subType in TypesObjects)
-                    {
-                        if (subType.Equals(bundleType) && !isACosmetic && hasNotBeenUsed && $@"{checkable_filePath}\{bundleName}".Contains($@"{bundleName}\{bundleName}"))
-                        {
-                            Object_Logged_IDs.Add($@"{ID},{bundleName},{bundleType},{Game_Name},{checkable_filePath},{isACosmetic}");
-                            continue;
-                        }
-                    }
-                    foreach (string subType in TypesObjects)
-                    {
-                        if (subType.Equals(bundleType) && !isACosmetic && hasNotBeenUsed && $@"{checkable_filePath}\{bundleName}".Contains($@"{bundleName}\{bundleName}"))
-                        {
-                            Object_Logged_IDs.Add($@"{ID},{bundleName},{bundleType},{Game_Name},{checkable_filePath},{isACosmetic}");
-                            continue;
-                        }
-                    }
-                    Misc_Cosmetics_Logged_IDs.Add($@"{ID},{bundleName},{bundleType},{Game_Name},{checkable_filePath},{isACosmetic}");
-                }
-
-                //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                //God this is such a fucking pain in the ass
-                //It has yet to be dealt with, it barely works now and to be honest, even when it does work it skips/doubles some things
-
             }
             try
             {
-                if (FilePerTypeBox.Checked)
-                {
-                    string separateIDFolder = $@"{Directory.GetParent(log_path)}\IDs_Separate_Types";
-                    //MessageBox.Show($@"{Directory.GetParent(log_path)}");
-                    if (!Directory.Exists($@"{Directory.GetParent(log_path)}\IDs_Separate_Types"))
-                    {
-                        Directory.CreateDirectory($@"{Directory.GetParent(log_path)}\IDs_Separate_Types");
-                    }
-                    FileStream VehicleIDs = File.Create($@"{separateIDFolder}\Vehicle_IDs.csv");
-                    VehicleIDs.Close();
-                    FileStream ItemIDs = File.Create($@"{separateIDFolder}\Item_IDs.csv");
-                    ItemIDs.Close();
-                    FileStream ObjectIDs = File.Create($@"{separateIDFolder}\Object_IDs.csv");
-                    ObjectIDs.Close();
-                    FileStream MiscIDs = File.Create($@"{separateIDFolder}\Misc_and_Cosmetics_IDs.csv");
-                    MiscIDs.Close();
-                    File.WriteAllLines($@"{separateIDFolder}\Vehicle_IDs.csv", Vehicle_Logged_IDs);
-                    File.WriteAllLines($@"{separateIDFolder}\Item_IDs.csv", Item_Logged_IDs);
-                    File.WriteAllLines($@"{separateIDFolder}\Object_IDs.csv", Object_Logged_IDs);
-                    File.WriteAllLines($@"{separateIDFolder}\Misc_and_Cosmetics_IDs.csv", Misc_Cosmetics_Logged_IDs);
-
-                    int totalLINES = Vehicle_Logged_IDs.Count + Item_Logged_IDs.Count + Object_Logged_IDs.Count + Misc_Cosmetics_Logged_IDs.Count - 4;
-                    if (totalLINES > 0)
-                    {
-                        MessageBox.Show($@"Done grabbing .dat information! {totalLINES} .dat files found!", "Grabbed .dat information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    Vehicle_Logged_IDs.Clear(); Item_Logged_IDs.Clear(); Object_Logged_IDs.Clear(); Misc_Cosmetics_Logged_IDs.Clear();
-                }
                 File.WriteAllLines(log_path, logged_IDs);
-                logged_IDs.Clear();
             }
-            catch (System.IO.IOException)
+            catch (IOException)
             {
-                MessageBox.Show("The log file could not be edited because a different process is using it", "Log file busy", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                MessageBox.Show("IDLog.csv is inaccesible, make sure no other processes are using it!", "IDLog.csv inaccesible", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                debugLog.Add("IDLog.csv is inaccesible");
+                File.WriteAllLines(debugLogPath, debugLog);
             }
-            int totalLines = File.ReadLines(log_path).Count();
-            if (totalLines > 1)
-            {
-                MessageBox.Show($@"Done grabbing .dat information! {totalLines - 1} .dat files found!", "Grabbed .dat information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+
+            MessageBox.Show("Check IDLog.csv for changes.", "Check IDLog.csv", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void setIDRanges_Click(object sender, EventArgs e)
@@ -613,7 +530,6 @@ namespace The_Dat_File_Thing
             {
                 dirsUnchecked.Add(subdirectory);
                 logLines.Add(subdirectory);
-                debugLog.Add(subdirectory);
                 LoadSubDirs(subdirectory);
             }
         }
@@ -669,7 +585,7 @@ namespace The_Dat_File_Thing
                 if (!String.IsNullOrEmpty(masterBundleFilterFolder.Text))
                 {
                     bool masterBundleDat = false;
-                    var PossibleMasterBundles = Directory.GetFiles($@"{utd_path}\Maps\{masterBundleFilterFolder.Text}\Bundles\");
+                    var PossibleMasterBundles = Directory.GetFiles($@"{utd_path}{Path.DirectorySeparatorChar}Maps{Path.DirectorySeparatorChar}{masterBundleFilterFolder.Text}{Path.DirectorySeparatorChar}Bundles{Path.DirectorySeparatorChar}");
                     foreach (string possibleMasterBundle in PossibleMasterBundles)
                     {
                         if (possibleMasterBundle.Contains(".masterbundle") && !possibleMasterBundle.Contains(".manifest"))
@@ -693,20 +609,20 @@ namespace The_Dat_File_Thing
                     }
                     if (!masterBundleDat)
                     {
-                        FileStream masterBundleDatMaker = File.Create($@"{utd_path}\Maps\{masterBundleFilterFolder.Text}\Bundles\MasterBundle.dat");
+                        FileStream masterBundleDatMaker = File.Create($@"{utd_path}{Path.DirectorySeparatorChar}Maps{Path.DirectorySeparatorChar}{masterBundleFilterFolder.Text}{Path.DirectorySeparatorChar}Bundles{Path.DirectorySeparatorChar}MasterBundle.dat");
                         masterBundleDatMaker.Close();
-                        File.WriteAllText($@"{utd_path}\Maps\{masterBundleFilterFolder.Text}\Bundles\MasterBundle.dat", $@"Asset_Bundle_Name {masterBundle}.masterbundle" + "\n" + $@"Asset_Prefix Assets/{masterBundle}_masterbundle" + "\n" + $@"// Path to the asset bundle within Unity." + "\n" + $@"// Unity subfolders should match 1:1 with dat subfolders." + "\n" + "Master_Bundle_Version 3" + "\n\n" + $@"//File created automatically with a development version of Dat manager. If this is broken I 100% blame the end user.");
+                        File.WriteAllText($@"{utd_path}{Path.DirectorySeparatorChar}Maps{Path.DirectorySeparatorChar}{masterBundleFilterFolder.Text}{Path.DirectorySeparatorChar}Bundles{Path.DirectorySeparatorChar}MasterBundle.dat", $@"Asset_Bundle_Name {masterBundle}.masterbundle" + "\n" + $@"Asset_Prefix Assets/{masterBundle}_masterbundle" + "\n" + $@"// Path to the asset bundle within Unity." + "\n" + $@"// Unity subfolders should match 1:1 with dat subfolders." + "\n" + "Master_Bundle_Version 3" + "\n\n" + $@"//File created automatically with a development version of Dat manager. If this is broken I 100% blame the end user.");
                     }
                 }
                 else
                 {
-                    MessageBox.Show($@"'{masterBundleFilterFolder.Text}' is not a Map folder in {utd_path}\Maps!", "Map folder missing", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($@"'{masterBundleFilterFolder.Text}' is not a Map folder in {utd_path}{Path.DirectorySeparatorChar}Maps!", "Map folder missing", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 
             }
             catch(System.IO.DirectoryNotFoundException)
             {
-                MessageBox.Show($@"'{masterBundleFilterFolder.Text}' is not a Map folder in {utd_path}\Maps!", "Map folder missing", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($@"'{masterBundleFilterFolder.Text}' is not a Map folder in {utd_path}{Path.DirectorySeparatorChar}Maps!", "Map folder missing", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             try
             {
@@ -731,7 +647,7 @@ namespace The_Dat_File_Thing
                                 secondCleanline = secondCleanline.Replace('/', Path.DirectorySeparatorChar);
                                 if (!cleanManifestLines.Contains($@"{utd_path}\Maps\{masterBundleFilterFolder.Text}\{secondCleanline}"))
                                 {
-                                    fullPathFromManifest = $@"{utd_path}\Maps\{masterBundleFilterFolder.Text}\{secondCleanline}";
+                                    fullPathFromManifest = $@"{utd_path}{Path.DirectorySeparatorChar}Maps{Path.DirectorySeparatorChar}{masterBundleFilterFolder.Text}{Path.DirectorySeparatorChar}{secondCleanline}";
                                     debugLog.Add($@"Path found in manifest: {secondCleanline} converted to {fullPathFromManifest}");
                                     File.WriteAllLines(debugLogPath, debugLog);
                                     cleanLinesFinal.Add(secondCleanline);
@@ -827,6 +743,10 @@ namespace The_Dat_File_Thing
             {
                 MessageBox.Show("Empty/null file chosen, pick a line from the list above and try again", "Null reference exception", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void FilePerTypeBox_CheckedChanged(object sender, EventArgs e)
+        {
 
         }
     }

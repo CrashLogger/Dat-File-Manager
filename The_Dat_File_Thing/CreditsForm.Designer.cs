@@ -66,7 +66,7 @@
             // 
             this.CodeLabel.AutoSize = true;
             this.CodeLabel.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.CodeLabel.Location = new System.Drawing.Point(337, 85);
+            this.CodeLabel.Location = new System.Drawing.Point(337, 74);
             this.CodeLabel.Name = "CodeLabel";
             this.CodeLabel.Size = new System.Drawing.Size(147, 13);
             this.CodeLabel.TabIndex = 3;
@@ -87,19 +87,20 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.label2.Location = new System.Drawing.Point(337, 137);
+            this.label2.Location = new System.Drawing.Point(337, 128);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(320, 39);
+            this.label2.Size = new System.Drawing.Size(320, 52);
             this.label2.TabIndex = 5;
-            this.label2.Text = "iDrmzIt - Original idea\r\nNelson Sexton - For making .dat files only a relative pa" +
-    "in in the butt\r\nMitsuha Miyamizu - General purpose Goddess";
+            this.label2.Text = "iDrmzIt - Original idea\r\nCraven - Multi platform testing and bug reporting\r\nNelso" +
+    "n Sexton - For making .dat files only a relative pain in the butt\r\nMitsuha Miyam" +
+    "izu - General purpose Goddess";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.label3.Location = new System.Drawing.Point(304, 191);
+            this.label3.Location = new System.Drawing.Point(304, 203);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(166, 16);
             this.label3.TabIndex = 6;
@@ -109,7 +110,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.label4.Location = new System.Drawing.Point(337, 222);
+            this.label4.Location = new System.Drawing.Point(337, 219);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(140, 26);
             this.label4.TabIndex = 7;
@@ -121,7 +122,7 @@
             this.twitter.AutoSize = true;
             this.twitter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.twitter.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.twitter.Location = new System.Drawing.Point(379, 235);
+            this.twitter.Location = new System.Drawing.Point(380, 232);
             this.twitter.Name = "twitter";
             this.twitter.Size = new System.Drawing.Size(73, 13);
             this.twitter.TabIndex = 8;
@@ -162,8 +163,8 @@
             this.Name = "CreditsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Credits                                                                          " +
-    "                                                                            Deve" +
-    "lopment  Version 1.4";
+    "                                Multiplatform support - Development  Version 1.5" +
+    "";
             this.Load += new System.EventHandler(this.CreditsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

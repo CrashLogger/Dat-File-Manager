@@ -45,7 +45,6 @@
             this.OpenCredits = new System.Windows.Forms.Button();
             this.StandardToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.FileGenerationBox = new System.Windows.Forms.GroupBox();
-            this.AdvancedPanel = new System.Windows.Forms.Panel();
             this.useIndividualBundles = new System.Windows.Forms.Button();
             this.ListOfBundles = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -98,6 +97,7 @@
             this.FilePerTypeTooltip.SetToolTip(this.FilePerTypeBox, "Creates a different file per Type of bundle Found. (Object, Item, Vehicle, Misc) " +
         "Convenient to separate ID systems.");
             this.FilePerTypeBox.UseVisualStyleBackColor = true;
+            this.FilePerTypeBox.CheckedChanged += new System.EventHandler(this.FilePerTypeBox_CheckedChanged);
             // 
             // SkipCosmetics
             // 
@@ -194,7 +194,6 @@
             // 
             // FileGenerationBox
             // 
-            this.FileGenerationBox.Controls.Add(this.AdvancedPanel);
             this.FileGenerationBox.Controls.Add(this.useIndividualBundles);
             this.FileGenerationBox.Controls.Add(this.ListOfBundles);
             this.FileGenerationBox.Controls.Add(this.label2);
@@ -210,13 +209,6 @@
             this.FileGenerationBox.TabIndex = 5;
             this.FileGenerationBox.TabStop = false;
             this.FileGenerationBox.Text = "Generation";
-            // 
-            // AdvancedPanel
-            // 
-            this.AdvancedPanel.Location = new System.Drawing.Point(6, 395);
-            this.AdvancedPanel.Name = "AdvancedPanel";
-            this.AdvancedPanel.Size = new System.Drawing.Size(64, 64);
-            this.AdvancedPanel.TabIndex = 19;
             // 
             // useIndividualBundles
             // 
@@ -403,7 +395,6 @@
         private System.Windows.Forms.ComboBox ChooseBundleType;
         private System.Windows.Forms.Button useIndividualBundles;
         private System.Windows.Forms.LinkLabel InstallationPathLink;
-        private System.Windows.Forms.Panel AdvancedPanel;
     }
 }
 

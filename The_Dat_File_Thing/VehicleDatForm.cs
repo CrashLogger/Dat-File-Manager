@@ -25,25 +25,6 @@ namespace The_Dat_File_Thing
             vehicleTypeDir = vehicleTypeDir.Remove(vehicleTypeDir.Length - vehicleTypeDir.Split(Path.DirectorySeparatorChar).Last().Length, vehicleTypeDir.Split(Path.DirectorySeparatorChar).Last().Length);
             //MessageBox.Show(vehicleTypeDir);
             FileNameLabel.Text = MainForm.editingPath.Remove(MainForm.editingPath.Length - 1, 1).Split(Path.DirectorySeparatorChar).Last();
-            if (MainForm.advancedMode)
-            {
-                manualAdvancedCheckBox.Checked = true;
-                advancedGroup.Enabled = true;
-            }
-            else
-            {
-                if (MainForm.demoMode)
-                {
-                    manualAdvancedCheckBox.Checked = false;
-                    manualAdvancedCheckBox.Enabled = false;
-                    advancedGroup.Enabled = false;
-                }
-                else
-                {
-                    manualAdvancedCheckBox.Checked = false;
-                    advancedGroup.Enabled = false;
-                }
-            }
         }
 
         private void VehicleDatForm_Load(object sender, EventArgs e)
@@ -190,20 +171,23 @@ namespace The_Dat_File_Thing
 
                             try
                             {
-                                if (!File.Exists($@"{vehicleTypeDir}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat"))
+                                if (!File.Exists($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat"))
                                 {
-                                    FileStream fs = File.Create(($@"{vehicleTypeDir}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat"));
+                                    FileStream fs = File.Create(($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat"));
                                     fs.Close();
-                                    File.WriteAllLines($@"{vehicleTypeDir}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat", linesToWrite);
+                                    FileStream fsEng = File.Create(($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}English.dat"));
+                                    fsEng.Close();
+                                    File.WriteAllText(($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}English.dat"), ($@"Name {line.Split('_').Last()} {FileNameLabel.Text.Split('_').Last()}"));
+                                    File.WriteAllLines($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat", linesToWrite);
                                     MainForm.debugLog.Add($@"Created Vehicle with ID: {MainForm.currentVehicleID}");
                                     File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
                                 }
                                 else
                                 {
-                                    var currentDatFile = File.ReadAllLines($@"{vehicleTypeDir}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}\{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat");
+                                    var currentDatFile = File.ReadAllLines($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat");
                                 }
 
-                                MainForm.debugLog.Add($@"ID {MainForm.currentVehicleID}. Writing to { vehicleTypeDir}\{ line.Split('_').First()}_{ FileNameLabel.Text.Split('_').Last()}\{ line.Split('_').First()}_{ FileNameLabel.Text.Split('_').Last()}.dat");
+                                MainForm.debugLog.Add($@"ID {MainForm.currentVehicleID}. Writing to { vehicleTypeDir}{Path.DirectorySeparatorChar}{ line.Split('_').First()}_{ FileNameLabel.Text.Split('_').Last()}\{ line.Split('_').First()}_{ FileNameLabel.Text.Split('_').Last()}.dat");
                                 File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
 
                             }
