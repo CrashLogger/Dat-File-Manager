@@ -1,0 +1,47 @@
+//For development versions 1.5 and above
+
+//Legacy mode setting, probably alright to just get rid of this line but it doesn't hurt anyone as a just-in-case
+Advanced
+
+//The path to the Unturned install it will generate files for
+Utd_install_path C:\Users\erlan\Desktop\Unturned
+
+//ID ranges, leave field empty for maximum possible in unturned
+
+//min is the minimum obviously (Set to 3500 just to be sure)
+//max is the maximum obviously (Set to 65536)
+//cur is for the current one, last one used by the program
+
+//These can be edited within the program, by clicking on the "ID ranges" button
+
+//Vehicles
+minV 3500
+maxV 
+curV 
+
+//Items
+//I is for clothing, food, placeables, tools and other normal items
+//W is for guns and melee weapons
+//M is for misc, mostly cosmetics
+
+minI 3500
+maxI 6999
+curI
+minW 7000
+maxW 9999
+curW
+minM 10000
+maxM 
+curM
+
+//Objects
+
+minO 3500
+maxO 
+curO
+
+//Effects
+
+minE 3500
+maxE 
+curE
