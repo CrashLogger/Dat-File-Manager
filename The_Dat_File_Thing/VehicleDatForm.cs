@@ -21,6 +21,7 @@ namespace The_Dat_File_Thing
         public VehicleDatForm()
         {
             InitializeComponent();
+            advancedGroup.Enabled = true;
             vehicleTypeDir = MainForm.editingPath.Remove(MainForm.editingPath.Length - 1, 1);
             vehicleTypeDir = vehicleTypeDir.Remove(vehicleTypeDir.Length - vehicleTypeDir.Split(Path.DirectorySeparatorChar).Last().Length, vehicleTypeDir.Split(Path.DirectorySeparatorChar).Last().Length);
             //MessageBox.Show(vehicleTypeDir);
@@ -163,6 +164,7 @@ namespace The_Dat_File_Thing
                         {
                             //KEEP THESE TWO PLS THX
                             linesToWrite.Add($@"//Bundle: {line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}" + "\n" + $@"//English.dat: Name {line.Split('_').Last()} {FileNameLabel.Text.Split('_').Last()}");
+
                             
                             //MessageBox.Show($@"Bundle: {line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}" + "\n" + $@"English.dat: Name {FileNameLabel.Text.Split('_').Last()}_{line.Split('_').Last()}");
 
@@ -184,7 +186,23 @@ namespace The_Dat_File_Thing
                                 }
                                 else
                                 {
-                                    var currentDatFile = File.ReadAllLines($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat");
+                                    try
+                                    {
+                                        File.Delete($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat");
+                                    }
+                                    catch (UnauthorizedAccessException)
+                                    {
+                                        MessageBox.Show($@"There was an error editing the contents of: " + "\n" + $@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat." + "\n" + "Make sure it's files are not being used by another program and try again. If it's not, it may aswell mean I didn't close a filestream right or something, let me know.", "Error editing file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    }
+
+                                    FileStream fs = File.Create(($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat"));
+                                    fs.Close();
+                                    FileStream fsEng = File.Create(($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}English.dat"));
+                                    fsEng.Close();
+                                    File.WriteAllText(($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}English.dat"), ($@"Name {line.Split('_').Last()} {FileNameLabel.Text.Split('_').Last()}"));
+                                    File.WriteAllLines($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat", linesToWrite);
+                                    MainForm.debugLog.Add($@"Created Vehicle with ID: {MainForm.currentVehicleID}");
+                                    File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
                                 }
 
                                 MainForm.debugLog.Add($@"ID {MainForm.currentVehicleID}. Writing to { vehicleTypeDir}{Path.DirectorySeparatorChar}{ line.Split('_').First()}_{ FileNameLabel.Text.Split('_').Last()}\{ line.Split('_').First()}_{ FileNameLabel.Text.Split('_').Last()}.dat");
@@ -193,10 +211,27 @@ namespace The_Dat_File_Thing
                             }
                             catch (DirectoryNotFoundException)
                             {
-                                MessageBox.Show($"There was an error with the color variant prefix: A file with such a prefix does not exist, check for typos. \n \n Prefix and color with issues: \n {line}", "File with prefix not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                MainForm.debugLog.Add($@"File prefix does not exist: {line.Split('_').First()}");
+                                if (!Directory.Exists($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}"))
+                                {
+                                    MainForm.debugLog.Add($@"Automatically generated directory for {FileNameLabel.Text}");
+                                    Directory.CreateDirectory($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}");
+                                }
+                                else if (!File.Exists($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}English.dat"))
+                                {
+                                    MainForm.debugLog.Add($@"Automatically generated English file for {FileNameLabel.Text}");
+                                    FileStream eFs = File.Create($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}English.dat");
+                                    eFs.Close();
+                                }
+
+                                File.WriteAllText(($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}English.dat"), ($@"Name {line.Split('_').Last()} {FileNameLabel.Text.Split('_').Last()}"));
+                                File.WriteAllLines($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}.dat", linesToWrite);
+                                MainForm.debugLog.Add($@"Created Vehicle with ID: {MainForm.currentVehicleID}");
                                 File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
-                                break;
+
+                                //MessageBox.Show($"There was an error with the color variant prefix: A file with such a prefix does not exist, check for typos. \n \n Prefix and color with issues: \n {line}", "File with prefix not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                //MainForm.debugLog.Add($@"File prefix does not exist: {line.Split('_').First()}");
+                                //File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
+                                //break;
                             }
 
                             linesToWrite.RemoveAt(linesToWrite.Count - 1); linesToWrite.RemoveAt(linesToWrite.Count - 1);
@@ -204,9 +239,60 @@ namespace The_Dat_File_Thing
                         }
                         else if (colorIsSuffix.Checked)
                         {
-                            MainForm.debugLog.Add("Color variants active - Suffix");
-                            File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
-                            MessageBox.Show("Use the prefix for now, this isn't ready yet because I got distracted by chess and smash.");
+                            //KEEP THESE TWO PLS THX
+                            linesToWrite.Add($@"//Bundle: {line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}" + "\n" + $@"//English.dat: Name {line.Split('_').Last()} {FileNameLabel.Text.Split('_').Last()}");
+
+                            //MessageBox.Show($@"Bundle: {line.Split('_').First()}_{FileNameLabel.Text.Split('_').Last()}" + "\n" + $@"English.dat: Name {FileNameLabel.Text.Split('_').Last()}_{line.Split('_').Last()}");
+
+                            linesToWrite.Add($@"ID: {MainForm.currentVehicleID}");
+                            MainForm.currentVehicleID++;
+
+                            try
+                            {
+                                if (!File.Exists($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}.dat"))
+                                {
+                                    FileStream fs = File.Create(($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}.dat"));
+                                    fs.Close();
+                                    FileStream fsEng = File.Create(($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}{Path.DirectorySeparatorChar}English.dat"));
+                                    fsEng.Close();
+                                    File.WriteAllText(($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}{Path.DirectorySeparatorChar}English.dat"), ($@"Name {line.Split('_').Last()} {FileNameLabel.Text.Split('_').Last()}"));
+                                    File.WriteAllLines($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}.dat", linesToWrite);
+                                    MainForm.debugLog.Add($@"Created Vehicle with ID: {MainForm.currentVehicleID}");
+                                    File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
+                                }
+                                else
+                                {
+                                    MainForm.debugLog.Add($@".dat file already exists for {FileNameLabel.Text.Split('_').Last()}_{line.Split('_').First()}");
+                                }
+
+                                MainForm.debugLog.Add($@"ID {MainForm.currentVehicleID}. Writing to { vehicleTypeDir}{Path.DirectorySeparatorChar}{ line.Split('_').First()}_{ FileNameLabel.Text.Split('_').Last()}\{ line.Split('_').First()}_{ FileNameLabel.Text.Split('_').Last()}.dat");
+                                File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
+
+                            }
+                            catch (DirectoryNotFoundException)
+                            {
+                                if (!Directory.Exists($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}{Path.DirectorySeparatorChar}"))
+                                {
+                                    MainForm.debugLog.Add($@"Automatically generated directory for {FileNameLabel.Text}");
+                                    Directory.CreateDirectory($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}{Path.DirectorySeparatorChar}");
+                                    FileStream fs = File.Create(($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}.dat"));
+                                    fs.Close();
+                                }
+                                else if (!File.Exists($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}{Path.DirectorySeparatorChar}English.dat"))
+                                {
+                                    MainForm.debugLog.Add($@"Automatically generated English file for {FileNameLabel.Text}");
+                                    FileStream eFs = File.Create($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}{Path.DirectorySeparatorChar}English.dat");
+                                    eFs.Close();
+                                }
+
+                                File.WriteAllText(($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}{Path.DirectorySeparatorChar}English.dat"), ($@"Name {line.Split('_').First()} {FileNameLabel.Text.Split('_').First()}"));
+                                File.WriteAllLines($@"{vehicleTypeDir}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}{Path.DirectorySeparatorChar}{line.Split('_').First()}_{FileNameLabel.Text.Split('_').First()}.dat", linesToWrite);
+                                MainForm.debugLog.Add($@"Created Vehicle with ID: {MainForm.currentVehicleID}");
+                                File.WriteAllLines(MainForm.debugLogPath, MainForm.debugLog);
+                            }
+
+                            linesToWrite.RemoveAt(linesToWrite.Count - 1); linesToWrite.RemoveAt(linesToWrite.Count - 1);
+
                         }
                         DebugForm debugForm = new DebugForm();
                         debugForm.Show();

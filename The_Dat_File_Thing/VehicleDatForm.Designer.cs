@@ -82,14 +82,14 @@
             this.label10 = new System.Windows.Forms.Label();
             this.manualAdvancedCheckBox = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.colorIsSuffix = new System.Windows.Forms.RadioButton();
+            this.colorIsPrefix = new System.Windows.Forms.RadioButton();
             this.FileNameLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.colorVariants = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.ColorVariantsBox = new System.Windows.Forms.GroupBox();
             this.colorVariantsPathBox = new System.Windows.Forms.TextBox();
-            this.colorIsSuffix = new System.Windows.Forms.RadioButton();
-            this.colorIsPrefix = new System.Windows.Forms.RadioButton();
             this.vehicleTypeBox.SuspendLayout();
             this.speedSteerBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HealthAmount)).BeginInit();
@@ -568,7 +568,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(64, 64);
             this.panel2.TabIndex = 22;
-            this.toolTip1.SetToolTip(this.panel2, "Extra steering tires and so on are still WIP!");
+            this.toolTip1.SetToolTip(this.panel2, "Extra steering tires and so on coming soon-ish.");
             // 
             // label17
             // 
@@ -724,6 +724,33 @@
             this.manualAdvancedCheckBox.UseVisualStyleBackColor = true;
             this.manualAdvancedCheckBox.CheckedChanged += new System.EventHandler(this.manualAdvancedCheckBox_CheckedChanged);
             // 
+            // colorIsSuffix
+            // 
+            this.colorIsSuffix.AutoSize = true;
+            this.colorIsSuffix.Checked = true;
+            this.colorIsSuffix.Location = new System.Drawing.Point(65, 19);
+            this.colorIsSuffix.Name = "colorIsSuffix";
+            this.colorIsSuffix.Size = new System.Drawing.Size(51, 17);
+            this.colorIsSuffix.TabIndex = 13;
+            this.colorIsSuffix.TabStop = true;
+            this.colorIsSuffix.Text = "Suffix";
+            this.toolTip1.SetToolTip(this.colorIsSuffix, "The color variant marker is a suffix in the bundle name");
+            this.colorIsSuffix.UseVisualStyleBackColor = true;
+            this.colorIsSuffix.CheckedChanged += new System.EventHandler(this.colorIsSuffix_CheckedChanged);
+            // 
+            // colorIsPrefix
+            // 
+            this.colorIsPrefix.AutoSize = true;
+            this.colorIsPrefix.Location = new System.Drawing.Point(7, 20);
+            this.colorIsPrefix.Name = "colorIsPrefix";
+            this.colorIsPrefix.Size = new System.Drawing.Size(51, 17);
+            this.colorIsPrefix.TabIndex = 12;
+            this.colorIsPrefix.TabStop = true;
+            this.colorIsPrefix.Text = "Prefix";
+            this.toolTip1.SetToolTip(this.colorIsPrefix, "The color variant marker is a prefix in the bundle name");
+            this.colorIsPrefix.UseVisualStyleBackColor = true;
+            this.colorIsPrefix.CheckedChanged += new System.EventHandler(this.colorIsPrefix_CheckedChanged);
+            // 
             // FileNameLabel
             // 
             this.FileNameLabel.AutoSize = true;
@@ -788,33 +815,6 @@
             this.colorVariantsPathBox.ReadOnly = true;
             this.colorVariantsPathBox.Size = new System.Drawing.Size(258, 20);
             this.colorVariantsPathBox.TabIndex = 14;
-            // 
-            // colorIsSuffix
-            // 
-            this.colorIsSuffix.AutoSize = true;
-            this.colorIsSuffix.Checked = true;
-            this.colorIsSuffix.Location = new System.Drawing.Point(65, 19);
-            this.colorIsSuffix.Name = "colorIsSuffix";
-            this.colorIsSuffix.Size = new System.Drawing.Size(51, 17);
-            this.colorIsSuffix.TabIndex = 13;
-            this.colorIsSuffix.TabStop = true;
-            this.colorIsSuffix.Text = "Suffix";
-            this.toolTip1.SetToolTip(this.colorIsSuffix, "The color variant marker is a suffix in the bundle name");
-            this.colorIsSuffix.UseVisualStyleBackColor = true;
-            this.colorIsSuffix.CheckedChanged += new System.EventHandler(this.colorIsSuffix_CheckedChanged);
-            // 
-            // colorIsPrefix
-            // 
-            this.colorIsPrefix.AutoSize = true;
-            this.colorIsPrefix.Location = new System.Drawing.Point(7, 20);
-            this.colorIsPrefix.Name = "colorIsPrefix";
-            this.colorIsPrefix.Size = new System.Drawing.Size(51, 17);
-            this.colorIsPrefix.TabIndex = 12;
-            this.colorIsPrefix.TabStop = true;
-            this.colorIsPrefix.Text = "Prefix";
-            this.toolTip1.SetToolTip(this.colorIsPrefix, "The color variant marker is a prefix in the bundle name");
-            this.colorIsPrefix.UseVisualStyleBackColor = true;
-            this.colorIsPrefix.CheckedChanged += new System.EventHandler(this.colorIsPrefix_CheckedChanged);
             // 
             // VehicleDatForm
             // 
